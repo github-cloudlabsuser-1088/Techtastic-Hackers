@@ -17,7 +17,7 @@ function Header({ theme }) {
   };
 
   return (
-    <header style={headerStyles}>
+    <header style={headerStyles} className="p-5">
       <img src={logo} alt="Techtastic Hackers Logo" style={logoStyles}/>
       <div> {/* Wrap title and subtitle for better alignment */}
         <h1 style={{ margin: 0, lineHeight: '1.2' }}>AI-Global Insights</h1> {/* App name aligned to the left */}

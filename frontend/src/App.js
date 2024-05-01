@@ -13,17 +13,7 @@ function App() {
   const [filter, setFilter] = useState('All');
   const [chartSize, setChartSize] = useState({ width: window.innerWidth * 0.6, height: 400 });
 
-  useEffect(() => {
-    const handleResize = () => {
-      // Adjust dimensions based on the container or another parent element as needed.
-      // For simplicity, we're using the window's width.
-      setChartSize({ width: Math.max(window.innerWidth * 0.6, 300), height: 400 });  // Ensure a minimum width for very small screens
-    };
 
-    handleResize();  // Set the initial size correctly
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   useEffect(() => {
     // Here you'd replace mockData with a fetch request to your backend,
@@ -56,13 +46,13 @@ function App() {
 
   return (
     <div style={appStyles}>
-      <Button variant="outline-light" onClick={toggleTheme} style={{ position: 'absolute', right: 20, top: 20 }}>
+      <Button variant="outline-light" onClick={toggleTheme} style={{ position: 'absolute',marginTop:"30px", right: 20, top: 50 }}>
         {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
       </Button>
       <Header theme={theme} />
       <Container>
-        <Row>
-          <Col>
+        <Row className="p-3">
+          <Col >
             {/* Country Selector Dropdown */}
             <Dropdown>
               <Dropdown.Toggle variant={theme === 'dark' ? 'secondary' : 'outline-secondary'}>
@@ -73,7 +63,7 @@ function App() {
               </Dropdown.Menu>
             </Dropdown>
           </Col>
-          <Col>
+          <Col >
             {/* Filter Dropdown */}
             <Dropdown>
               <Dropdown.Toggle variant={theme === 'dark' ? 'secondary' : 'outline-secondary'}>
@@ -90,7 +80,7 @@ function App() {
             </Dropdown>
           </Col>
         </Row>
-        <div className="chartContainer" style={{ width: '100%', height: 'auto' }}>
+        <div >
           <BarChart data={filteredChartData} width={chartSize.width} height={chartSize.height} />
         </div>
         <Row>
