@@ -1,4 +1,3 @@
-// App.js
 import React, { useState, useEffect } from 'react';
 import { Button, Container, Row, Col, Dropdown } from 'react-bootstrap';
 import Header from './components/Header';
@@ -6,34 +5,54 @@ import BarChart from './components/BarChart';
 import mockData from './US.json';  // Adjust path as necessary
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'; // Import your CSS file here
+
 function App() {
   const [theme, setTheme] = useState('dark');
   const [selectedCountry, setSelectedCountry] = useState('US');
   const [data, setData] = useState({});
-  const [filter, setFilter] = useState('All');
+  const [selectedFilterGroup, setSelectedFilterGroup] = useState('All');
   const [chartSize, setChartSize] = useState({ width: window.innerWidth * 0.6, height: 400 });
-
-
+  // Defined filter groups
+  const filterGroups = {
+    "Economic Factors": ["GDP_growth_rate", "unemployment_rate", "inflation_rate", "poverty_rate"],
+    "Government Expenditures": ["education_expenditure", "healthcare_expenditure"],
+    "Societal Metrics": ["life_expectancy", "median_age", "income_inequality_index"],
+    "Political Scores": ["political_stability_index", "political_freedom_index", "corruption_perceptions_index"],
+  };
 
   useEffect(() => {
-    // Here you'd replace mockData with a fetch request to your backend,
-    // this code simulates fetching data based on the selectedCountry state.
     const fetchData = async () => {
-      // Simulate a delay for fetching data
       await new Promise(resolve => setTimeout(resolve, 1000));
-      // For now, directly using mockData as a simulation
       setData(mockData.parameters || {}); 
     };
-
     fetchData();
   }, [selectedCountry]);
+
+  // Function to filter chart data based on selected filter group
+  const getFilteredChartData = () => {
+    const allChartData = { ...data };
+    delete allChartData['summary text']; // Remove summary text to clean up chart data
+
+    if (selectedFilterGroup === 'All') {
+      // If 'All' is selected, return all data
+      return allChartData;
+    }
+
+    const groupKeys = filterGroups[selectedFilterGroup];
+    const filteredChartData = {};
+
+    groupKeys.forEach(key => {
+      if (allChartData[key]) {
+        filteredChartData[key] = allChartData[key];
+      }
+    });
+
+    return filteredChartData; 
+  };
+
+  // Prepare filtered chart data based on the selected filter group
+  const filteredChartData = getFilteredChartData();
   
-  const { 'summary text': summaryText, ...chartData } = data;
-
-  const filteredChartData = filter === 'All' 
-    ? chartData 
-    : { [filter]: chartData[filter] };
-
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
@@ -46,13 +65,13 @@ function App() {
 
   return (
     <div style={appStyles}>
-      <Button variant="outline-light" onClick={toggleTheme} style={{ position: 'absolute',marginTop:"30px", right: 20, top: 50 }}>
+      <Button variant="outline-light" onClick={toggleTheme} style={{ position: 'absolute', marginTop: "0px", right: 20, top: 50 }}>
         {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
       </Button>
       <Header theme={theme} />
       <Container>
         <Row className="p-3">
-          <Col >
+          <Col>
             {/* Country Selector Dropdown */}
             <Dropdown>
               <Dropdown.Toggle variant={theme === 'dark' ? 'secondary' : 'outline-secondary'}>
@@ -63,31 +82,31 @@ function App() {
               </Dropdown.Menu>
             </Dropdown>
           </Col>
-          <Col >
-            {/* Filter Dropdown */}
+          <Col>
+            {/* Filter Dropdown to select Filter Groups */}
             <Dropdown>
               <Dropdown.Toggle variant={theme === 'dark' ? 'secondary' : 'outline-secondary'}>
-                Filter: {filter}
+                Filter: {selectedFilterGroup}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item onClick={() => setFilter('All')}>All</Dropdown.Item>
-                {Object.keys(chartData).map(key => (
-                  <Dropdown.Item key={key} onClick={() => setFilter(key)}>
-                    {key.replaceAll('_', ' ')}
+                <Dropdown.Item onClick={() => setSelectedFilterGroup('All')}>All</Dropdown.Item>
+                {Object.keys(filterGroups).map(groupName => (
+                  <Dropdown.Item key={groupName} onClick={() => setSelectedFilterGroup(groupName)}>
+                    {groupName}
                   </Dropdown.Item>
                 ))}
               </Dropdown.Menu>
             </Dropdown>
           </Col>
         </Row>
-        <div >
+        <div>
           <BarChart data={filteredChartData} width={chartSize.width} height={chartSize.height} />
         </div>
         <Row>
           <Col>
             {/* Displaying the summary text */}
             <div className="my-4">
-              <p>{summaryText}</p>
+              <p>{data['summary text'] || ''}</p>
             </div>
           </Col>
         </Row>

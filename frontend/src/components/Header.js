@@ -21,7 +21,7 @@ function Header({ theme }) {
       <img src={logo} alt="Techtastic Hackers Logo" style={logoStyles}/>
       <div> {/* Wrap title and subtitle for better alignment */}
         <h1 style={{ margin: 0, lineHeight: '1.2' }}>AI-Global Insights</h1> {/* App name aligned to the left */}
-        <p style={{ margin: 0 }}><strong>Gain valuable insights into socio-political security, employment labour trends, and more.</strong></p>
+        <p style={{ margin: 0,maxWidth:"50%" }}><strong>Gain valuable insights into socio-political security, employment labour trends, and more.</strong></p>
       </div>
     </header>
   );
