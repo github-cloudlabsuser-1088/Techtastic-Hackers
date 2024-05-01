@@ -1,0 +1,18 @@
+{
+    "country": "United States",
+    "parameters": {
+      "GDP_growth_rate": 2.3,
+      "unemployment_rate": 3.8,
+      "inflation_rate": 2.1,
+      "poverty_rate": 10.5,
+      "education_expenditure": 5.4,
+      "healthcare_expenditure": 17.7,
+      "life_expectancy": 78.9,
+      "median_age": 38.4,
+      "political_stability_index": 8.2,
+      "political_freedom_index": 86,
+      "corruption_perceptions_index": 69,
+      "income_inequality_index": 41.5,
+      "summary text": "The United States shows moderate economic growth with a GDP growth rate of 2.3% and a stable unemployment rate of 3.8%. Inflation remains low at 2.1%, contributing to a relatively steady poverty rate of 10.5%. Government spending on education and healthcare is consistent at 5.4% and 17.7% of GDP, respectively. Life expectancy is around 79 years, with a median age of 38.4 years. Political stability and freedom are high, with indices at 8.2 and 86, respectively. Corruption perceptions are relatively low, with an index of 69, while income inequality remains a concern, with an index of 41.5."
+    }
+  }
